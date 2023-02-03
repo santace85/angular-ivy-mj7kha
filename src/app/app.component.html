@@ -1,38 +1,116 @@
-<p>
-  This test is meant to evaluate your ability to perform common
-  JavaScript/Angular operations while showcasing your unique creative flair.
-  <br />
-  <br />
-  You are encouraged to utilize common Angular methods & services for this test,
-  but feel free to express yourself and your creative abilities.
-  <br />
-  <br />
-  <strong>
-    Your task is to create a list page that displays an array of movies from
-    IMDB and:
-    <ul>
-      <li>
-        Include the following info on the list: "title", "year", "director",
-        "genre", "score"
-      </li>
-      <li>
-        Make the list sortable by "title", "year", "director", and "score"
-      </li>
-      <li>
-        Include a string search filter for "title", "year", "director", and
-        "score"
-      </li>
-      <li>
-        Have some way to add/remove movies from the list. You may use the
-        additional movie list supplied or add a movie in manually.
-      </li>
-    </ul>
-  </strong>
-  <br />
-  Start by forking this project by clicking the "Fork" button in the top left. Feel free to remove this HTML and add your own. Once you are done make changes click the "Share" button and copy and past the Editor URL link (Make sure all your changes are saved!). We recommend testing out this link in a new tab to make sure all your changes are present.
-  <br />
-  <br />
-  At times, we've noticed stackblitz not peristing all updates on a shared link.
-  If you run into this issue, you can download a zip file of your work by clicking the cloud
-  icon to the right of the "PROJECT" title in the top left corner which you can send to us instead.
-</p>
+<h1>{{ title }}</h1>
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th (click)="sort('title')">
+          Title
+          <span *ngIf="sortKey === 'title'">
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-sort-down': sortDirection === 'desc',
+                'fa-sort-up': sortDirection === 'asc'
+              }"
+            ></i>
+          </span>
+          <div class="input-wrap">
+            <input
+              type="text"
+              [(ngModel)]="titleSearchTerm"
+              placeholder="Search"
+              (click)="$event.stopPropagation()"
+            />
+          </div>
+        </th>
+        <th (click)="sort('year')">
+          Year
+          <span *ngIf="sortKey === 'year'">
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-sort-down': sortDirection === 'desc',
+                'fa-sort-up': sortDirection === 'asc'
+              }"
+            ></i>
+          </span>
+          <div class="input-wrap">
+            <input
+              type="text"
+              [(ngModel)]="yearSearchTerm"
+              placeholder="Search"
+              (click)="$event.stopPropagation()"
+            />
+          </div>
+        </th>
+        <th (click)="sort('director')">
+          Director
+          <span *ngIf="sortKey === 'director'">
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-sort-down': sortDirection === 'desc',
+                'fa-sort-up': sortDirection === 'asc'
+              }"
+            ></i>
+          </span>
+          <div class="input-wrap">
+            <input
+              type="text"
+              [(ngModel)]="directorSearchTerm"
+              placeholder="Search"
+              (click)="$event.stopPropagation()"
+            />
+          </div>
+        </th>
+        <th>
+          Genre
+          <div class="select-wrap">
+            <select (change)="filterGenre($event)">
+              <option value="">All</option>
+              <option *ngFor="let genre of genres" [value]="genre">
+                {{ genre }}
+              </option>
+            </select>
+          </div>
+        </th>
+        <th (click)="sort('score')">
+          Score
+          <span *ngIf="sortKey === 'score'">
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-sort-down': sortDirection === 'desc',
+                'fa-sort-up': sortDirection === 'asc'
+              }"
+            ></i>
+          </span>
+          <div class="input-wrap">
+            <input
+              type="text"
+              [(ngModel)]="scoreSearchTerm"
+              placeholder="Search"
+              (click)="$event.stopPropagation()"
+            />
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let movie of filteredMovies
+            | orderBy: sortKey:sortDirection
+            | genreFilter: genreTerm
+        "
+      >
+        <td>{{ movie.title }}</td>
+        <td>{{ movie.year }}</td>
+        <td>{{ movie.director }}</td>
+        <td>{{ movie.genre }}</td>
+        <td>{{ movie.score }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div></div>
+</div>

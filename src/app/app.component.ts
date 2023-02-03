@@ -246,6 +246,57 @@ export class AppComponent {
   //|////////////////////|/
   //|/put your code here/|/
   //V////////////////////V/
+  title = 'Movie List';
+
+  sortKey: string;
+  sortDirection: 'asc' | 'desc' = 'asc';
+  genreTerm: string;
+  titleSearchTerm: string;
+  yearSearchTerm: string;
+  directorSearchTerm: string;
+  scoreSearchTerm: string;
+
+  genres: string[] = [
+    ...new Set(
+      this.movies.reduce((acc, movie) => [...acc, ...movie.genre], [])
+    ),
+  ];
+
+  get filteredMovies() {
+    return this.movies.filter((movie) => {
+      return (
+        (!this.titleSearchTerm ||
+          movie.title
+            .toLowerCase()
+            .includes(this.titleSearchTerm.toLowerCase())) &&
+        (!this.yearSearchTerm ||
+          movie.year.toString().includes(this.yearSearchTerm)) &&
+        (!this.directorSearchTerm ||
+          movie.director
+            .toLowerCase()
+            .includes(this.directorSearchTerm.toLowerCase())) &&
+        (!this.scoreSearchTerm ||
+          movie.score.toString().includes(this.scoreSearchTerm))
+      );
+    });
+  }
+
+  sort(key: string) {
+    if (this.sortKey === key) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortKey = key;
+      this.sortDirection = 'asc';
+    }
+  }
+
+  filterGenre(genreEvent: Event) {
+    this.genreTerm = (genreEvent.target as HTMLSelectElement).value;
+  }
+
+  removeMovie(index: number) {
+    this.movies.splice(index, 1);
+  }
 
   //^////////////////////^/
   //|////////////////////|/
