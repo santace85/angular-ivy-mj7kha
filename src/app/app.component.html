@@ -127,43 +127,83 @@
 </div>
 
 <app-modal
+  class="addmovie-modal"
   [(isOpen)]="isModalOpen"
   [header]="'Add Movie'"
   (close)="isModalOpen = false"
 >
-  <div>Choose a Movie from our list</div>
+  <!-- dropdown to add a Movie from moreMovies -->
+  <div class="input-caption">Choose a Movie from our list</div>
 
-  <select [(ngModel)]="selectedMovie">
+  <select class="modal-inputs" [(ngModel)]="selectedMovie">
     <option *ngFor="let movie of moreMovies" [ngValue]="movie">
       {{ movie.title }}
     </option>
   </select>
-  <button (click)="addMovie()">Submit</button>
+  <button (click)="addMovie()" [disabled]="!selectedMovie">Submit</button>
 
-  <div>--- OR ---</div>
+  <div class="modal-divider">--- OR ---</div>
+
   <!-- form to add a custom Movie -->
-  <div>Add a Custom Movie</div>
+  <div class="input-caption">Add a Custom Movie</div>
+
   <form #movieForm="ngForm" (ngSubmit)="onSubmit(movieForm)">
     <div>
       <label>Title:</label>
-      <input type="text" name="title" ngModel required />
+      <input class="modal-inputs" type="text" name="title" ngModel required />
     </div>
     <div>
       <label>Year:</label>
-      <input type="text" name="year" ngModel required />
+      <input
+        class="modal-inputs"
+        type="number"
+        name="year"
+        ngModel
+        required
+        pattern="^[0-9]+$"
+      />
+      <div
+        *ngIf="
+          movieForm.controls['year'].invalid &&
+          movieForm.controls['year'].touched
+        "
+      >
+        <div class="modal-error-text">Year should be a number.</div>
+      </div>
     </div>
     <div>
       <label>Director:</label>
-      <input type="text" name="director" ngModel required />
+      <input
+        class="modal-inputs"
+        type="text"
+        name="director"
+        ngModel
+        required
+      />
     </div>
     <div>
       <label>Genre:</label>
-      <input type="text" name="genre" ngModel required />
+      <input class="modal-inputs" type="text" name="genre" ngModel required />
     </div>
     <div>
       <label>Score:</label>
-      <input type="text" name="score" ngModel required />
+      <input
+        class="modal-inputs"
+        type="text"
+        name="score"
+        ngModel
+        required
+        pattern="^[0-9]+(\.[0-9]+)?$"
+      />
+      <div
+        *ngIf="
+          movieForm.controls['score'].invalid &&
+          movieForm.controls['score'].touched
+        "
+      >
+        <div class="modal-error-text">Score should be a number.</div>
+      </div>
     </div>
-    <button type="submit">Submit</button>
+    <button type="submit" [disabled]="!movieForm.valid">Submit</button>
   </form>
 </app-modal>

@@ -40,12 +40,6 @@ input {
   display: block;
 }
 
-select {
-  display: block;
-  width: -webkit-fill-available;
-  font-size: inherit;
-}
-
 .input-wrap {
   text-align: -webkit-center;
   padding: 3px;
@@ -53,4 +47,42 @@ select {
 .select-wrap {
   text-align: -webkit-center;
   padding: 3px;
+}
+
+.modal-divider {
+  text-align: -webkit-center;
+  margin: 10px;
+}
+
+.modal-error-text {
+  color: red;
+}
+
+.input-caption {
+  font-weight: bold;
+  text-align: -webkit-center;
+}
+
+.modal-inputs {
+  display: block;
+  width: -webkit-fill-available;
+  font-size: inherit;
+}
+
+.addmovie-modal label {
+  font-style: italic;
+}
+
+.addmovie-modal button {
+  margin: 5px 0;
+  border-radius: 5px;
+  border-width: thin;
+}
+.addmovie-modal button:enabled {
+  background-color: skyblue;
+}
+
+.addmovie-modal button:hover:enabled {
+  background-color: deepskyblue;
+  cursor: pointer;
 }

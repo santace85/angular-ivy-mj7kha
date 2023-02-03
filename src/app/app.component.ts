@@ -309,19 +309,29 @@ export class AppComponent {
 
   addMovie() {
     this.movies.push(this.selectedMovie);
+    this.moreMovies = this.moreMovies.filter((m) => m !== this.selectedMovie);
+    this.selectedMovie = null;
     this.isModalOpen = false;
   }
 
   onSubmit(form: NgForm) {
-    let newMovie: Movie;
-    newMovie.title = form.value.title;
-    newMovie.year = form.value.year;
-    newMovie.director = form.value.director;
-    newMovie.genre = form.value.genre.split(',');
-    newMovie.score = form.value.score;
+    console.log(form.value.title);
+    console.log(form.value.year);
+    console.log(form.value.director);
+    console.log(form.value.genre.split(','));
+    console.log(form.value.score);
+
+    let newMovie = {
+      title: form.value.title,
+      year: form.value.year,
+      director: form.value.director,
+      genre: form.value.genre.split(','),
+      score: form.value.score,
+    };
 
     // Add the new movie to your movies array
     this.movies.push(newMovie);
+    form.reset();
     this.isModalOpen = false;
   }
   //^////////////////////^/
