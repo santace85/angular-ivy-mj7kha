@@ -6,10 +6,17 @@ import { AppComponent } from './app.component';
 import { OrderByPipe } from './orderBy.pipe';
 import { GenreFilterPipe } from './genreFilter.pipe';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ModalComponent } from './app.modal';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, FontAwesomeModule],
-  declarations: [AppComponent, FilterPipe, OrderByPipe, GenreFilterPipe],
+  declarations: [
+    AppComponent,
+    ModalComponent,
+    FilterPipe,
+    OrderByPipe,
+    GenreFilterPipe,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

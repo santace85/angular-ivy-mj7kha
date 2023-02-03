@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 type Movie = {
   title: string;
@@ -246,6 +247,7 @@ export class AppComponent {
   //|////////////////////|/
   //|/put your code here/|/
   //V////////////////////V/
+
   title = 'Movie List';
 
   sortKey: string;
@@ -255,6 +257,8 @@ export class AppComponent {
   yearSearchTerm: string;
   directorSearchTerm: string;
   scoreSearchTerm: string;
+  isModalOpen = false;
+  selectedMovie: Movie;
 
   genres: string[] = [
     ...new Set(
@@ -294,10 +298,32 @@ export class AppComponent {
     this.genreTerm = (genreEvent.target as HTMLSelectElement).value;
   }
 
-  removeMovie(index: number) {
+  removeMovie(movie) {
+    const index = this.movies.indexOf(movie);
     this.movies.splice(index, 1);
   }
 
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  addMovie() {
+    this.movies.push(this.selectedMovie);
+    this.isModalOpen = false;
+  }
+
+  onSubmit(form: NgForm) {
+    let newMovie: Movie;
+    newMovie.title = form.value.title;
+    newMovie.year = form.value.year;
+    newMovie.director = form.value.director;
+    newMovie.genre = form.value.genre.split(',');
+    newMovie.score = form.value.score;
+
+    // Add the new movie to your movies array
+    this.movies.push(newMovie);
+    this.isModalOpen = false;
+  }
   //^////////////////////^/
   //|////////////////////|/
   //|////////////////////|/

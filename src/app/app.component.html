@@ -3,6 +3,11 @@
   <table>
     <thead>
       <tr>
+        <th>
+          <button class="add-row-button" (click)="openModal()">
+            <i class="fas fa-plus"></i>
+          </button>
+        </th>
         <th (click)="sort('title')">
           Title
           <span *ngIf="sortKey === 'title'">
@@ -94,6 +99,7 @@
             />
           </div>
         </th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -101,16 +107,63 @@
         *ngFor="
           let movie of filteredMovies
             | orderBy: sortKey:sortDirection
-            | genreFilter: genreTerm
+            | genreFilter: genreTerm;
+          let i = index
         "
       >
+        <td>{{ i + 1 }}</td>
         <td>{{ movie.title }}</td>
         <td>{{ movie.year }}</td>
         <td>{{ movie.director }}</td>
         <td>{{ movie.genre }}</td>
         <td>{{ movie.score }}</td>
+        <td class="trash-wrap">
+          <i class="fas fa-trash-alt" (click)="removeMovie(movie)"></i>
+        </td>
       </tr>
     </tbody>
   </table>
   <div></div>
 </div>
+
+<app-modal
+  [(isOpen)]="isModalOpen"
+  [header]="'Add Movie'"
+  (close)="isModalOpen = false"
+>
+  <div>Choose a Movie from our list</div>
+
+  <select [(ngModel)]="selectedMovie">
+    <option *ngFor="let movie of moreMovies" [ngValue]="movie">
+      {{ movie.title }}
+    </option>
+  </select>
+  <button (click)="addMovie()">Submit</button>
+
+  <div>--- OR ---</div>
+  <!-- form to add a custom Movie -->
+  <div>Add a Custom Movie</div>
+  <form #movieForm="ngForm" (ngSubmit)="onSubmit(movieForm)">
+    <div>
+      <label>Title:</label>
+      <input type="text" name="title" ngModel required />
+    </div>
+    <div>
+      <label>Year:</label>
+      <input type="text" name="year" ngModel required />
+    </div>
+    <div>
+      <label>Director:</label>
+      <input type="text" name="director" ngModel required />
+    </div>
+    <div>
+      <label>Genre:</label>
+      <input type="text" name="genre" ngModel required />
+    </div>
+    <div>
+      <label>Score:</label>
+      <input type="text" name="score" ngModel required />
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</app-modal>

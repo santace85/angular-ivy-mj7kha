@@ -1,0 +1,7 @@
+<div class="modal-wrapper" [ngStyle]="{ display: isOpen ? 'block' : 'none' }">
+  <div class="modal-overlay" (click)="onClose()"></div>
+  <div class="modal-content">
+    <h2>{{ header }}</h2>
+    <ng-content></ng-content>
+  </div>
+</div>
